@@ -8,17 +8,31 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class JsonUtils {
 
     public static Sandwich parseSandwichJson(String json) throws JSONException {
         Sandwich sandwich= new Sandwich();
         JSONObject sandwichDetail = new JSONObject(json);
-        String sandwichName = sandwichDetail.getString("name");
-        String sandwichMainName = sandwichDetail.getString("mainName");
-        Log.d("adam",String.valueOf(sandwichMainName));
-        String sandwichPlace = sandwichDetail.getString("placeOfOrigin");
-        String sandwichDescription = sandwichDetail.getString("description");
-        sandwich=new Sandwich(sandwichMainName,sandwichName,sandwichPlace,sandwichDescription);
+        JSONObject name=sandwichDetail.getJSONObject("name");
+        String sandwichMainName = name.getString("mainName");
+
+        String placeOfOrigin = sandwichDetail.getString("placeOfOrigin");
+        String description=sandwichDetail.getString("description");
+        JSONArray sandwichIngredients=sandwichDetail.getJSONArray("ingredients");
+        ArrayList<String> currentSandwichIngredients=new ArrayList<>();
+        for(int c=0;c<sandwichIngredients.length();c++){
+            currentSandwichIngredients.add(sandwichIngredients.getString(c));
+        }
+        JSONArray alsoKnownAs=name.getJSONArray("alsoKnownAs");
+        ArrayList<String> currentAlsoKnownAs=new ArrayList();
+        for(int i=0;i<alsoKnownAs.length();i++){
+            currentAlsoKnownAs.add(alsoKnownAs.getString(i));
+        }
+        String image=sandwichDetail.getString("image");
+        sandwich=new Sandwich(sandwichMainName,currentAlsoKnownAs,placeOfOrigin,description,image,currentSandwichIngredients);
         return sandwich;
     }
 }

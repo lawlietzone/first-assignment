@@ -20,7 +20,7 @@ public class DetailActivity extends AppCompatActivity {
     private static final int DEFAULT_POSITION = -1;
     TextView alsoKnownAsTv;
     TextView ingredientTv;
-    TextView originTv;
+    TextView placeOfOriginTv;
     TextView descriptionTv;
     Sandwich sandwich;
 
@@ -29,11 +29,11 @@ public class DetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
 
-        ImageView ingredientsIv = findViewById(R.id.image_iv);
+       ImageView ingredientsIv =(ImageView)  findViewById(R.id.image_iv);
 
         alsoKnownAsTv=(TextView)findViewById(R.id.also_known_tv);
         ingredientTv=(TextView)findViewById(R.id.ingredients_tv);
-        originTv=(TextView)findViewById(R.id.origin_tv);
+        placeOfOriginTv=(TextView)findViewById(R.id.origin_tv);
         descriptionTv=(TextView)findViewById(R.id.description_tv);
 
         Intent intent = getIntent();
@@ -56,14 +56,12 @@ public class DetailActivity extends AppCompatActivity {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        Log.d("dex",String.valueOf(sandwich.getMainName()));
 
         if (sandwich == null) {
             // Sandwich data unavailable
             closeOnError();
             return;
         }
-
         populateUI();
         Picasso.with(this)
                 .load(sandwich.getImage())
@@ -78,9 +76,13 @@ public class DetailActivity extends AppCompatActivity {
     }
 
     private void populateUI() {
-        alsoKnownAsTv.setText(sandwich.getMainName());
-        ingredientTv.setText(sandwich.getDescription());
-        originTv.setText(sandwich.getPlaceOfOrigin());
+        placeOfOriginTv.setText(sandwich.getPlaceOfOrigin());
         descriptionTv.setText(sandwich.getDescription());
+        for(int c=0;c<sandwich.getIngredients().size();c++) {
+            ingredientTv.append(sandwich.getIngredients().get(c));
+        }
+        for(int i=0;i<sandwich.getAlsoKnownAs().size();i++){
+            alsoKnownAsTv.append(sandwich.getAlsoKnownAs().get(i));
+        }
     }
 }
