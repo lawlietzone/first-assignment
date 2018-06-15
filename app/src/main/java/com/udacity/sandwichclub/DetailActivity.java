@@ -93,16 +93,12 @@ public class DetailActivity extends AppCompatActivity {
         if(sandwich.getIngredients().isEmpty()){
             ingredients_linearLayout.setVisibility(View.GONE);
             } else {
-            for (int c = 0; c < sandwich.getIngredients().size(); c++) {
                 ingredientTv.setText(TextUtils.join(" , ",sandwich.getIngredients()));
-            }
         }
-            if(sandwich.getAlsoKnownAs().isEmpty()){
-                also_known_linearLayout.setVisibility(View.GONE);
-              }else {
-                for (int i = 0; i < sandwich.getAlsoKnownAs().size(); i++) {
-                    alsoKnownAsTv.setText(TextUtils.join(" , ", sandwich.getAlsoKnownAs()));
-                }
-            }
+        if(sandwich.getAlsoKnownAs().isEmpty()){
+            also_known_linearLayout.setVisibility(View.GONE);
+          }else {
+                alsoKnownAsTv.setText(TextUtils.join(" , ", sandwich.getAlsoKnownAs()));
+        }
     }
 }
